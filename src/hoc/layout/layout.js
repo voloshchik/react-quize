@@ -1,15 +1,28 @@
-import React, { Component } from 'react'
-import classes from './layout.module.css'
- class Layout extends Component {
-    render() {
-        return (
-            <div className={classes.Layout} >
-                <main>
-                    {this.props.children}
-                </main>
-            </div>
-        )
-    }
+import React, { Component } from "react";
+import classes from "./layout.module.css";
+import MenuToggle from "../../componens/Navigation/MenuToggle/MenuToggle";
+import Drower from '../../componens/Navigation/Drower/Drower';
+class Layout extends Component {
+  state = {
+    menu: false
+  };
+  onToggleHandler = props => {
+    this.setState({
+      menu: !this.state.menu
+    });
+  };
+  render() {
+    return (
+      <div className={classes.Layout}>
+          <Drower isOpen={this.state.menu}/>
+        <MenuToggle
+          isOpen={this.state.menu}
+          onToggle={this.onToggleHandler}
+        />
+        <main>{this.props.children}</main>
+      </div>
+    );
+  }
 }
 
-export default Layout
+export default Layout;
