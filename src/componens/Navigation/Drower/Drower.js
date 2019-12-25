@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import classes from "./Drower.module.css";
+import Backdrop from "../../UI/Button/Backdrop/Backdrop";
 const Links = [1, 2, 3];
 export default class Drower extends Component {
   renderLinks() {
@@ -17,9 +18,12 @@ export default class Drower extends Component {
           cls.push(classes.close)
       }
     return (
+      <React.Fragment>
       <nav className={cls.join(' ')}>
         <ul>{this.renderLinks()}</ul>
       </nav>
+        {this.props.isOpen ? <Backdrop onClick={this.props.onClose}/>: null}
+      </React.Fragment>
     );
   }
 }
