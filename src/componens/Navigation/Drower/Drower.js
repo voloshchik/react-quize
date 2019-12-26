@@ -1,13 +1,25 @@
 import React, { Component } from "react";
 import classes from "./Drower.module.css";
 import Backdrop from "../../UI/Button/Backdrop/Backdrop";
-const Links = [1, 2, 3];
+import { NavLink } from "react-router-dom";
+const links = [
+  {to:'/',label:'Список',exact:true},
+  {to:'/auth',label:'Авторизация',exact:false},
+  {to:'/quiz-creator',label:'Создать тест',exact:false}
+];
 export default class Drower extends Component {
+  ClickHandler=()=>{
+    this.props.onClose()
+  }
   renderLinks() {
-    return Links.map((Link, index) => {
+    return links.map((link, index) => {
       return (
         <li key={index}>
-          <a href="">Link{Link}</a>
+          <NavLink to={link.to}
+          exact={link.exact}
+          activeClassName={classes.active}
+          onClick={this.ClickHandler}
+          >{link.label}</NavLink>
         </li>
       );
     });
