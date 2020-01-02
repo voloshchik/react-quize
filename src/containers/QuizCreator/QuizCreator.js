@@ -4,6 +4,7 @@ import Button from "../../componens/UI/Button/Button";
 import { createControl } from "../../form/formFramework";
 import Input from "../../componens/UI/Button/input/input";
 import Axulliary from "../../hoc/layout/Axulliary/Axulliary";
+import Select from "../../componens/UI/Button/Select/Select";
 function createOptionControl(number) {
   return createControl(
     {
@@ -33,6 +34,7 @@ function createFornControls() {
 export default class QuizCreator extends Component {
   state = {
     quiz: [],
+    rightAnswerId: 1,
     formControls: createFornControls()
   };
   submitHandler = event => {
@@ -47,7 +49,6 @@ export default class QuizCreator extends Component {
       return (
         <Axulliary key={controlName + index}>
           <Input
-            
             label={control.label}
             value={control.value}
             valid={control.valid}
@@ -62,14 +63,34 @@ export default class QuizCreator extends Component {
       );
     });
   }
+  selectChangeHandler = event => {
+    console.log(event.target.value);
+    this.setState({
+      rightAnswerId: event.target.value
+    });
+  };
   render() {
+    const select = (
+      <Select
+        label="Выбирете правильный ответ"
+        value={this.state.rightAnswerId}
+        onChange={this.selectChangeHandler}
+        options={[
+          { text: 1, value: 1 },
+          { text: 2, value: 2 },
+          { text: 3, value: 3 },
+          { text: 4, value: 4 }
+        ]}
+      />
+    );
     return (
       <div className={classes.QuizCreator}>
         <div>
           <h1>Создание теста</h1>
           <form action="" onSubmit={this.submitHandler}>
             {this.renderControls()}
-            <select></select>
+            {select}
+            
             <Button type="primary" onClick={this.addQuestionHandler}>
               Добавить вопрос
             </Button>
