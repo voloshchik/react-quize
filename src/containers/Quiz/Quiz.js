@@ -10,31 +10,31 @@ class Quiz extends Component {
     isFinished: false,
     activeQuestion: 0,
     answerState: null,
-    loading: true,
+    loading:true,
     quiz: [
-      // {
-      //   question: "Какого цвета небо",
-      //   rightAnswerId: 2,
-
-      //   id: 1,
-      //   answers: [
-      //     { text: "Черный", id: 1 },
-      //     { text: "Синий", id: 2 },
-      //     { text: "Красный", id: 3 },
-      //     { text: "Фиолетовый", id: 4 }
-      //   ]
-      // }
-      // {
-      //   question: "В каком году основали Санкт-Петербург",
-      //   rightAnswerId: 3,
-      //   id: 2,
-      //   answers: [
-      //     { text: "1700", id: 1 },
-      //     { text: "1702", id: 2 },
-      //     { text: "1703", id: 3 },
-      //     { text: "1803", id: 4 }
-      //   ]
-      // }
+          // {
+          //   question: "Какого цвета небо",
+          //   rightAnswerId: 2,
+            
+          //   id: 1,
+          //   answers: [
+          //     { text: "Черный", id: 1 },
+          //     { text: "Синий", id: 2 },
+          //     { text: "Красный", id: 3 },
+          //     { text: "Фиолетовый", id: 4 }
+          //   ]
+          // },
+          // {
+          //   question: "В каком году основали Санкт-Петербург",
+          //   rightAnswerId: 3,
+          //   id: 2,
+          //   answers: [
+          //     { text: "1700", id: 1 },
+          //     { text: "1702", id: 2 },
+          //     { text: "1703", id: 3 },
+          //     { text: "1803", id: 4 }
+          //   ]
+          // }
     ]
   };
   onAnswerClickHandlerId = answerId => {
@@ -93,16 +93,15 @@ class Quiz extends Component {
   async componentDidMount() {
     // console.log("Quiz ID= ", this.props.match.params.id);
     try {
-      const response = await axios.get(
-        `/quizes/${this.props.match.params.id}.json`
-      );
-      const quiz = response.data;
+      const response = await axios.get(`/quizes/${this.props.match.params.id}.json`);
+      const quiz=response.data
       this.setState({
         quiz,
-        loading: false
-      });
-      console.log(quiz);
-      console.log(this.state.quiz);
+        loading:false
+      })
+      console.log(quiz)
+      console.log(this.state.quiz)
+
     } catch (e) {
       console.log(e);
     }
@@ -113,10 +112,9 @@ class Quiz extends Component {
       <div className={classes.Quiz}>
         <div className={classes.QuizWrapper}>
           <h1>Ответьте на все вопросы</h1>
-
-          {this.state.loading ? (
-            <Loader />
-          ) : this.state.isFinished ? (
+          {this.state.loading
+          ?<Loader/>
+          :this.state.isFinished ? (
             <FinishedQuiz
               onRetry={this.retryHandler}
               results={this.state.results}
@@ -131,7 +129,9 @@ class Quiz extends Component {
               quizLength={this.state.quiz.length}
               state={this.state.answerState}
             />
-          )}
+          )
+          }
+          
         </div>
       </div>
     );
