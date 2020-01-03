@@ -9,6 +9,7 @@ import {
 import Input from "../../componens/UI/Button/input/input";
 import Axulliary from "../../hoc/layout/Axulliary/Axulliary";
 import Select from "../../componens/UI/Button/Select/Select";
+import axios from "axios";
 
 function createOptionControl(number) {
   return createControl(
@@ -76,9 +77,20 @@ export default class QuizCreator extends Component {
       formControls: createFormControls()
     });
   };
-  createQuizHandler = event => {
+  createQuizHandler = async event => {
     event.preventDefault();
-    console.log(this.state.quiz);
+    try {
+      const response = await axios.post("/quizes.json", this.state.quiz);
+      console.log(response.data);
+      this.setState({
+        quiz: [],
+        isFormValid: false,
+        rightAnswerId: 1,
+        formControls: createFormControls()
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
   changeHandler = (value, controlName) => {
     const formControls = { ...this.state.formControls };
