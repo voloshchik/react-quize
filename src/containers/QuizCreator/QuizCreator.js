@@ -9,7 +9,7 @@ import {
 import Input from "../../componens/UI/Button/input/input";
 import Axulliary from "../../hoc/layout/Axulliary/Axulliary";
 import Select from "../../componens/UI/Button/Select/Select";
-import axios from "axios";
+import axios from "../../axios/axios-quiz";
 
 function createOptionControl(number) {
   return createControl(
@@ -129,7 +129,7 @@ export default class QuizCreator extends Component {
   selectChangeHandler = event => {
     console.log(event.target.value);
     this.setState({
-      rightAnswerId: event.target.value
+      rightAnswerId: +event.target.value
     });
   };
   render() {
