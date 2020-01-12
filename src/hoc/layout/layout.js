@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classes from "./layout.module.css";
 import MenuToggle from "../../componens/Navigation/MenuToggle/MenuToggle";
-import Drower from '../../componens/Navigation/Drower/Drower';
+import Drower from "../../componens/Navigation/Drower/Drower";
 import { connect } from "react-redux";
 class Layout extends Component {
   state = {
@@ -12,26 +12,28 @@ class Layout extends Component {
       menu: !this.state.menu
     });
   };
-  menuCloseHandler=()=>{
+  menuCloseHandler = () => {
     this.setState({
-      menu:false
-    })
-  }
+      menu: false
+    });
+  };
   render() {
     return (
       <div className={classes.Layout}>
-          <Drower isAuthenticated={this.props.isAuthenticated}
-          isOpen={this.state.menu} onClose={this.menuCloseHandler}/>
-        <MenuToggle
+        <Drower
+          isAuthenticated={this.props.isAuthenticated}
           isOpen={this.state.menu}
-          onToggle={this.onToggleHandler}
+          onClose={this.menuCloseHandler}
         />
+        <MenuToggle isOpen={this.state.menu} onToggle={this.onToggleHandler} />
         <main>{this.props.children}</main>
       </div>
     );
   }
 }
-function mapStateToProps(state){
-  isAuthenticated: !!state.auth.token
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: !!state.auth.token
+  };
 }
 export default connect(mapStateToProps)(Layout);

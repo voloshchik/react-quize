@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_SUCCESS, AUTH_LOGOUT } from './actionTypes';
+import { AUTH_SUCCESS, AUTH_LOGOUT } from "./actionTypes";
 export function auth(email, password, isLogin) {
   return async dispatch => {
     const authData = {
@@ -22,11 +22,45 @@ export function auth(email, password, isLogin) {
     );
     localStorage.setItem("token", data.idToken);
     localStorage.setItem("userId", data.localId);
-    localStorage.setItem("expirationData", expirationData);
+    localStorage.setItem("expirationDate", expirationData);
     dispatch(authSuccess(data.idToken));
     dispatch(autoLogout(data.expiresIn));
   };
 }
+export function autoLogin() {
+  return dispatch => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      dispatch(logout());
+    } else {
+      const expirationDate = new Date(localStorage.getItem("expirationDate"));
+      if (expirationDate <=new Date()) {
+        dispatch(logout());
+      } else {
+        dispatch(authSuccess(token));
+        dispatch(
+          autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000)
+        );
+      }
+    }
+  };
+}
+// export function autoLogin() {
+//   return dispatch => {
+//     const token = localStorage.getItem('token')
+//     if (!token) {
+//       dispatch(logout())
+//     } else {
+//       const expirationDate = new Date(localStorage.getItem('expirationDate'))
+//       if (expirationDate <= new Date()) {
+//         dispatch(logout())
+//       } else {
+//         dispatch(authSuccess(token))
+//         dispatch(autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000))
+//       }
+//     }
+//   }
+// }
 export function autoLogout(time) {
   return dispatch => {
     setTimeout(() => {
@@ -35,9 +69,9 @@ export function autoLogout(time) {
   };
 }
 export function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("expirationData");
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("expirationData");
   return { type: AUTH_LOGOUT };
 }
 export function authSuccess(token) {
